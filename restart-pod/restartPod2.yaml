@@ -31,20 +31,18 @@ roleRef:
   name: edit-pods
   apiGroup: rbac.authorization.k8s.io
 
-apiVersion: batch/v1
-kind: Job
+apiVersion: v1
+kind: Pod
 metadata:
   name: internal-kubectl
   namespace: test
 spec:
-  template:
-    spec:
-      serviceAccountName: pod-kubectl
-      containers:
-      - name: internal-kubectl
-        image: jackmak521/internal-kubectl:latest
-        command: ["/bin/sh", "-c", "kubectl -n test get pod | grep -e 'nginx-test2' |awk '{print $1}' | while read podname; \
-                   do kubectl -n test delete pod $podname; sleep 10; done && \
-                   kubectl -n test get pod | grep -e 'nginx-test3' |awk '{print $1}' | while read podname; \
-                   do kubectl -n test delete pod $podname; sleep 10; done"]
-      restartPolicy: Never
+  serviceAccountName: pod-kubectl
+  containers:
+  - name: internal-kubectl
+    image: jackmak521/internal-kubectl:latest
+    command: ["/bin/sh", "-c", "kubectl -n test get pod | grep -e 'nginx-test2' |awk '{print $1}' | while read podname; \
+                                do kubectl -n test delete pod $podname; sleep 10; done && \
+                                kubectl -n test get pod | grep -e 'nginx-test3' |awk '{print $1}' | while read podname; \
+                                do kubectl -n test delete pod $podname; sleep 10; done"]
+  restartPolicy: Never
