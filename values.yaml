@@ -1,0 +1,6 @@
+namespace: sta-t24
+
+image:
+  repository: jackmak521/internal-kubectl
+  tag: latest
+  
