@@ -1,4 +1,4 @@
-namespace: sta-t24
+namespace: test
 
 image:
   repository: jackmak521/internal-kubectl
